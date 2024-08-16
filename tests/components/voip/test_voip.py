@@ -178,7 +178,7 @@ async def test_pipeline(
 
         assert satellite.state == AssistSatelliteState.RESPONDING
 
-    def response_finished():
+    def tts_response_finished():
         done.set()
 
     async def async_get_media_source_audio(
@@ -190,14 +190,14 @@ async def test_pipeline(
 
     with (
         patch(
-            "homeassistant.components.voip.assist_satellite.async_pipeline_from_audio_stream",
+            "homeassistant.components.assist_satellite.entity.async_pipeline_from_audio_stream",
             new=async_pipeline_from_audio_stream,
         ),
         patch(
             "homeassistant.components.voip.voip.tts.async_get_media_source_audio",
             new=async_get_media_source_audio,
         ),
-        patch.object(satellite, "response_finished", response_finished),
+        patch.object(satellite, "tts_response_finished", tts_response_finished),
     ):
         rtp_protocol = voip.voip.PipelineRtpDatagramProtocol(
             hass,
@@ -255,7 +255,7 @@ async def test_stt_stream_timeout(
             pass
 
     with patch(
-        "homeassistant.components.voip.assist_satellite.async_pipeline_from_audio_stream",
+        "homeassistant.components.assist_satellite.entity.async_pipeline_from_audio_stream",
         new=async_pipeline_from_audio_stream,
     ):
         rtp_protocol = voip.voip.PipelineRtpDatagramProtocol(
@@ -356,7 +356,7 @@ async def test_tts_timeout(
 
     with (
         patch(
-            "homeassistant.components.voip.assist_satellite.async_pipeline_from_audio_stream",
+            "homeassistant.components.assist_satellite.entity.async_pipeline_from_audio_stream",
             new=async_pipeline_from_audio_stream,
         ),
         patch(
@@ -470,7 +470,7 @@ async def test_tts_wrong_extension(
 
     with (
         patch(
-            "homeassistant.components.voip.assist_satellite.async_pipeline_from_audio_stream",
+            "homeassistant.components.assist_satellite.entity.async_pipeline_from_audio_stream",
             new=async_pipeline_from_audio_stream,
         ),
         patch(
@@ -582,7 +582,7 @@ async def test_tts_wrong_wav_format(
 
     with (
         patch(
-            "homeassistant.components.voip.assist_satellite.async_pipeline_from_audio_stream",
+            "homeassistant.components.assist_satellite.entity.async_pipeline_from_audio_stream",
             new=async_pipeline_from_audio_stream,
         ),
         patch(
@@ -678,7 +678,7 @@ async def test_empty_tts_output(
 
     with (
         patch(
-            "homeassistant.components.voip.assist_satellite.async_pipeline_from_audio_stream",
+            "homeassistant.components.assist_satellite.entity.async_pipeline_from_audio_stream",
             new=async_pipeline_from_audio_stream,
         ),
         patch(
@@ -747,7 +747,7 @@ async def test_pipeline_error(
 
     with (
         patch(
-            "homeassistant.components.voip.assist_satellite.async_pipeline_from_audio_stream",
+            "homeassistant.components.assist_satellite.entity.async_pipeline_from_audio_stream",
             new=async_pipeline_from_audio_stream,
         ),
     ):
